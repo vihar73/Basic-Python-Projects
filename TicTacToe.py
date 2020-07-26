@@ -67,8 +67,7 @@ def playgame(board, turn = 'x'):
     if inp not in range(1,10):
         print("Enter number between 1-9")
     val_list = validentry(board)
-    print(val_list)
-    
+        
     if len(val_list) == 0:
         print("Game finished. Winner is ", wingame(board))
         playagain = input("Press P to play again, any other key to exit:")
@@ -81,6 +80,7 @@ def playgame(board, turn = 'x'):
         
     if inp not in val_list:
         print("Enter a valid number")
+        print(val_list)
         playgame(board, turn = turn)
     else:
         board[imap[inp_str][0]][imap[inp_str][1]] = turn
