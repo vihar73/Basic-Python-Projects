@@ -1,2 +1,2 @@
-# Stylize
-Image Style transfer Project
+# Basic Python projects
+Collection of side projects and some basic algorithms
