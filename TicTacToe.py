@@ -132,50 +132,39 @@ def computemove(board):
 
 '''Playing the game'''
 def playgame(board, turn = 'o'):
-    print(wingame(board))
+    #print(wingame(board))
     if wingame(board):
         print ('Winner is :', wingame(board))
         return wingame(board) 
     
     val_list = validentry(board)
-        
     if len(val_list) == 0:
         print("Game finished. Winner is ", wingame(board))
         return None
-    '''
+    
     if turn == 'x':
         print("Bot move")
-        inp = computemove(board)
-        printboard(board)
-        turn = switchturns(turn)
-        playgame(board, turn = turn)
-        
+        inp = computemove(board)        
     else:
-    '''
-    imap = {'7':(0,0), '8':(0,1), '9':(0,2),
-            '4':(1,0), '5':(1,1), '6':(1,2),
-            '1':(2,0), '2':(2,1), '3':(2,2)}
-    inp_str = input('Play ' + turn +': ')
-    
-    if inp_str.lower() == 'end' or inp_str.lower() == 'exit':
-        print('Game ended')
-        return None
-        
-    inp = int(inp_str)
+        imap = {'7':(0,0), '8':(0,1), '9':(0,2),
+                '4':(1,0), '5':(1,1), '6':(1,2),
+                '1':(2,0), '2':(2,1), '3':(2,2)}
+        inp_str = input('Play ' + turn +': ')
+        if inp_str.lower() == 'end' or inp_str.lower() == 'exit':
+            print('Game ended')
+            return None
+        inp = int(inp_str)
 
-    if inp not in range(1,10):
-        print("Enter number between 1-9")
-
-    if inp not in val_list:
-        print("Enter a valid number")
-        print(val_list)
-        playgame(board, turn = turn)
-    else:
+    if inp in val_list:
         board[imap[inp_str][0]][imap[inp_str][1]] = turn
         printboard(board)
         turn = switchturns(turn)
-        playgame(board, turn = turn)
- 
+    else:
+        print("Enter a valid number")
+        print(val_list)
+    
+    playgame(board, turn = turn)
+
 #welcome message
 print("Welcome to Tic-Tac-Toe, this is a 2 player game - inputs are based on traditional num pads")
 print("7 | 8 | 9 |")
