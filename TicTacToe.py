@@ -9,7 +9,7 @@ def reinitialize(board):
              ['','','']]
     return board
 
-'''Print the board'''
+'''Helper - Print the board'''
 def printboard(board):
     for line in board:
         for num in line:
@@ -85,30 +85,37 @@ def copyboard(board):
 
 '''Minimax algorithm'''
 def minimax(deepboard, move, turn = 'x', depth = 0):
-    #deepboard = copyboard(board)
-    if wingame(deepboard):
-        if wingame(deepboard) == 'x':
-            print('win??')
-            return (10-depth)
-        else:
-            print("lose??")
-            return (-10+depth)
-    if len(validentry(deepboard)) == 0:
-        print("draw??")
-        return (0-depth)
-            
+    deepboard1 = copyboard(deepboard)
     imap = {'7':(0,0), '8':(0,1), '9':(0,2),
             '4':(1,0), '5':(1,1), '6':(1,2),
             '1':(2,0), '2':(2,1), '3':(2,2)}
-    if move in validentry(deepboard):
+    if wingame(deepboard1):
+        if wingame(deepboard1) == 'x':
+            printboard(deepboard1)
+            print('win??',10-depth)
+            return (10-depth)
+        else:
+            printboard(deepboard1)
+            print("lose??",-10+depth)
+            return (-10+depth)            
+    elif len(validentry(deepboard1)) == 0:
+        printboard(deepboard1)
+        print("draw??",0-depth)
+        return (0-depth)
+    elif move in validentry(deepboard1):
         move_str = str(move)
-        deepboard[imap[move_str][0]][imap[move_str][1]] = turn
-        print(depth)
-        
-        for rem_move in validentry(deepboard):
+        print(move)
+        deepboard1[imap[move_str][0]][imap[move_str][1]] = turn
+        printboard(deepboard1)
+        printboard(deepboard)
+        rem_moves = validentry(deepboard1)
+        print(rem_moves)
+        for rem_move in rem_moves:
             turn = switchturns(turn)
-            print("turn switched", turn)
-            minimax(deepboard, rem_move, turn = turn, depth = depth+1)
+            print("turn switched", turn, " |depth", depth)
+            minimax(deepboard1, rem_move, turn = turn, depth = depth+1)
+    else:
+        return None
         
 '''Making max-score move from minimax'''
 def computemove(board):
@@ -120,10 +127,10 @@ def computemove(board):
     for move in validentry(deepboard):
         scr = minimax(deepboard,move)
         mv_scr.append((move, scr))
-        printboard(board)
-        printboard(deepboard)
+        print(mv_scr)
+        #printboard(deepboard)
     #scr = max(pair[1] for pair in mv_scr)
-    print(mv_scr)
+    
     for item in mv_scr:
         if item[1] == None:
             mv_scr.remove(item)
@@ -141,14 +148,15 @@ def playgame(board, turn = 'o'):
     if len(val_list) == 0:
         print("Game finished. Winner is ", wingame(board))
         return None
-    
+    imap = {'7':(0,0), '8':(0,1), '9':(0,2),
+            '4':(1,0), '5':(1,1), '6':(1,2),
+            '1':(2,0), '2':(2,1), '3':(2,2)}
+
     if turn == 'x':
         print("Bot move")
-        inp = computemove(board)        
+        inp = computemove(board)
+        inp_str = str(inp)
     else:
-        imap = {'7':(0,0), '8':(0,1), '9':(0,2),
-                '4':(1,0), '5':(1,1), '6':(1,2),
-                '1':(2,0), '2':(2,1), '3':(2,2)}
         inp_str = input('Play ' + turn +': ')
         if inp_str.lower() == 'end' or inp_str.lower() == 'exit':
             print('Game ended')
