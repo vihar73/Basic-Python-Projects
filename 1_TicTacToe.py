@@ -36,7 +36,7 @@ def wingame(board):
     if board[0][0] == board[1][1] ==board[2][2]:
         if board[1][1] != '':
             return board[1][1] #diagonal win
-        
+
     if board[0][2] == board[1][1] ==board[2][0]:
         if board[1][1] != '':
             return board[1][1] #diagonal win
@@ -49,7 +49,7 @@ def validentry(board):
             '(1,0)':4, '(1,1)':5, '(1,2)':6,
             '(2,0)':1, '(2,1)':2, '(2,2)':3}
     for r in range(len(board)):
-        for c in range(len(board[r])): 
+        for c in range(len(board[r])):
             if board[r][c] == '':
                 key = '(' + str(r) + ',' + str(c) + ')'
                 validentry.append(omap[key])
@@ -70,50 +70,58 @@ def copyboard(board):
     return dupboard
 
 '''Minimax algorithm'''
-def minimax(board, turn, depth = 0):
+def minimax(board, turn, depth = 0, flag = 0):
     deepboard = copyboard(board)
+
     imap = {'7':(0,0), '8':(0,1), '9':(0,2),
             '4':(1,0), '5':(1,1), '6':(1,2),
             '1':(2,0), '2':(2,1), '3':(2,2)}
-    
+
     if wingame(deepboard):
         return {'scr':(10 - depth),'move': None} if wingame(deepboard) == 'x' else {'scr':(-10 + depth),'move': None}
     elif len(validentry(deepboard)) == 0:
         #print("draw??", move, turn, 0)
         return {'scr':(0),'move': None}
-    '''  
+    '''
     elif move in validentry(deepboard):
         move_str = str(move)
         deepboard[imap[move_str][0]][imap[move_str][1]] = turn
-      
+
         if wingame(deepboard):
             return (10 - depth) if wingame(deepboard) == 'x' else (-10 + depth)
         elif len(validentry(deepboard)) == 0:
             #print("draw??", move, turn, 0)
             return (0-depth)
-    '''    
+    '''
     if turn == 'x':
         best = {'scr':-400000, 'move': None}
     else:
         best = {'scr':400000, 'move': None}
-        
+
     for move in validentry(deepboard):
+        deep_deepboard = []
+        if flag == 1:
+           deep_deepboard = copyboard(deepboard)
         move_str = str(move)
         deepboard[imap[move_str][0]][imap[move_str][1]] = turn
+        printboard(deepboard)
         turn = switchturns(turn)
-        print(turn)
         value = minimax(deepboard, turn = turn, depth = depth+1)
-    
-    if turn == 'x':
-        if value['scr'] > best['scr']:
-            best['scr'] = value['scr']
-            best['move'] = value['move']
-    else:
-        if value['scr'] < best['scr']:
-             best['scr'] = value['scr']
-             best['move'] = value['move']
-    return best           
-    
+        if deep_deepboard != []:
+            deepboard = copyboard(deep_deepboard)
+        print(switchturns(turn), move, value, best)
+
+        value['move'] = move
+
+        if turn == 'x':
+            if value['scr'] < best['scr']:
+                best = value
+        else:
+            if value['scr'] > best['scr']:
+                best = value
+        #print(best)
+    return best
+
     '''
     elif turn == 'o':
         best = {'scr':400000, 'move': None}
@@ -122,19 +130,19 @@ def minimax(board, turn, depth = 0):
             deepboard[imap[move_str][0]][imap[move_str][1]] = turn
             turn = switchturns(turn)
             value = minimax(deepboard, turn = turn, depth = depth+1)
-        
+
         if value['scr'] < best['scr']:
              best['scr'] = value['scr']
              best['move'] = value['move']
         return best
-     '''   
+     '''
 '''Making max-score move from minimax'''
 def computemove(board):
     #print(board,0)
     if len(validentry(board)) == 0:
         return None
     #mv_scr = []
-    mv_scr = minimax(board, turn = 'x')
+    mv_scr = minimax(board, turn = 'x', flag = 1)
     print(mv_scr)
     return mv_scr['move']
     #deepboard = board
@@ -145,7 +153,7 @@ def computemove(board):
     print(mv_scr)
         #printboard(board)
     #scr = max(pair[1] for pair in mv_scr)
-    
+
     for item in mv_scr:
         if item[1] == None:
             mv_scr.remove(item)
@@ -158,8 +166,8 @@ def playgame(board, turn = 'o'):
     #print(wingame(board))
     if wingame(board):
         print ('Winner is ://', wingame(board))
-        return wingame(board) 
-    
+        return wingame(board)
+
     val_list = validentry(board)
     if len(val_list) == 0:
         print("Game finished. Winner is //", wingame(board))
@@ -186,7 +194,7 @@ def playgame(board, turn = 'o'):
     else:
         print("Enter a valid number")
         print(val_list)
-    
+
     playgame(board, turn = turn)
 
 #welcome message
