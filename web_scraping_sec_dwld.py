@@ -2,8 +2,8 @@ import pandas as pd
 
 sic_codes = [1311]
 #sic_codes = [1381, 1382, 1389, 1311]
-#typ = ['UPLOAD','CLU']
-typ = ['CORRESP','CLC']
+typ = ['UPLOAD','CLU']
+#typ = ['CORRESP','CLC']
 linkdata = pd.read_excel('linkdata-{0}-{1}.xlsx'.format(typ[0], sic_codes[0]))
 
 linkdata = linkdata[linkdata['Type'] == typ[0]]
