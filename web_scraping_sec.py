@@ -4,7 +4,7 @@ import pandas as pd
 
 sic_codes = [1311]
 #sic_codes = [1381, 1382, 1389, 1311] #1381-52, 1382 - 12, 1389 - 28, 1311 - 282
-typ = "CORRESP"
+typ = "CORRESP" #UPLOAD
 frm_date = "01/01/2019" #mm/dd/yyyy
 to_date = "09/07/2020"  #mm/dd/yyyy
 #link = "https://searchwww.sec.gov/EDGARFSClient/jsp/EDGAR_MainAccess.jsp?search_text=*&sort=Date&formType=Form" + typ + "&isAdv=true&stemming=true&numResults=100&querySic={}&fromDate=" + frm_date + "&toDate=" + to_date + "&numResults=100"
