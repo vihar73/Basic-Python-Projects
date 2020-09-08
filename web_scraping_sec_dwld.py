@@ -1,6 +1,6 @@
 import pandas as pd
 
-sic_codes = [1389]
+sic_codes = [1311]
 #sic_codes = [1381, 1382, 1389, 1311]
 #typ = ['UPLOAD','CLU']
 typ = ['CORRESP','CLC']
