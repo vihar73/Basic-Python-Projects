@@ -2,10 +2,10 @@ import requests
 import bs4
 import pandas as pd
 
-sic_codes = [1311]
-#sic_codes = [1381, 1382, 1389, 1311] #1381-52, 1382 - 12, 1389 - 28, 1311 - 282
-typ = "CORRESP" #UPLOAD
-frm_date = "01/01/2019" #mm/dd/yyyy
+sic_codes = [1389]
+#sic_codes = [1381, 1382, 1389, 1311]
+typ = "CORRESP"
+frm_date = "01/01/2018" #mm/dd/yyyy
 to_date = "09/07/2020"  #mm/dd/yyyy
 #link = "https://searchwww.sec.gov/EDGARFSClient/jsp/EDGAR_MainAccess.jsp?search_text=*&sort=Date&formType=Form" + typ + "&isAdv=true&stemming=true&numResults=100&querySic={}&fromDate=" + frm_date + "&toDate=" + to_date + "&numResults=100"
 link = "https://searchwww.sec.gov/EDGARFSClient/jsp/EDGAR_MainAccess.jsp?search_text=*&sort=Date&startDoc={0}&numResults=100&isAdv=true&formType=Form" + typ + "&fromDate=" + frm_date + "&toDate=" + to_date + "&stemming=true&querySic={1}"
@@ -42,4 +42,4 @@ linkdata['Company'] = company_name
 linkdata['Type'] = letter_type
 linkdata['Date'] = datelist
 
-linkdata.to_excel('linkdata-CORRESP-{}.xlsx'.format(sic_codes[0]), index = False)
+linkdata.to_excel('linkdata-{0}-{1}.xlsx'.format(typ, sic_codes[0]), index = False)
